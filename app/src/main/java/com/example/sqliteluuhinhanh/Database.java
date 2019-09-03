@@ -20,10 +20,6 @@ public class Database extends SQLiteOpenHelper {
         database.execSQL(sql);
     }
 
-    public Cursor GetData(String sql) {
-        SQLiteDatabase database = getReadableDatabase();
-        database.rawQuery(sql, null);
-    }
 
     public void INSERT_DOVAT(String ten, String mota, byte[] hinh) {
 

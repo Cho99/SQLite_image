@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,7 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
@@ -50,6 +53,26 @@ public class ThemDoVatActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityForResult(intent,REQUEST_CODE_FOLDER);
+            }
+        });
+
+        btnThem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Chuyen data image  -> byte[]
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) imgHinh.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+                ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArray);
+                byte[] HinhAnh = byteArray.toByteArray();
+
+                MainActivity.database.INSERT_DOVAT(
+                        edtTen.getText().toString().trim(),
+                        edtMoTa.getText().toString().trim(),
+                        HinhAnh
+                );
+                Toast.makeText(ThemDoVatActivity.this, "Đã thêm", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ThemDoVatActivity.this, MainActivity.class));
             }
         });
 
