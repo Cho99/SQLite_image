@@ -1,5 +1,6 @@
 package com.example.sqliteluuhinhanh;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -17,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         AnhXa();
+        Database database = new Database(this, "QuanLy.sqlite",null,1);
+        database.QueryData("CREATE TABLE IF NOT EXISTS DoVat(Id INTEGER PRIMARY KEY AUTOINCREMENT, Ten VARCHAR(255), MoTa VARCHAR(255), HinhANH BLOB)");
+
 
         btnThem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -24,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ThemDoVatActivity.class));
             }
         });
-
     }
 
     private void AnhXa() {
